@@ -1,17 +1,40 @@
 package com.up202305327.ldts;
 
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.screen.TerminalScreen;
+import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.googlecode.lanterna.terminal.Terminal;
+
+import java.io.IOException;
+
+import static com.googlecode.lanterna.TextCharacter.fromCharacter;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        try {
+            TerminalSize terminalSize = new TerminalSize(40, 20);
+            DefaultTerminalFactory terminalFactory = new
+                DefaultTerminalFactory()
+                .setInitialTerminalSize(terminalSize);
+            Terminal terminal = terminalFactory.createTerminal();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+            Screen screen = new TerminalScreen(terminal);
+            screen.setCursorPosition(null);
+            screen.startScreen();
+            screen.doResizeIfNecessary();
+            screen.clear();
+            screen.setCharacter(10,10, fromCharacter('X')[0]);
+            screen.refresh();
+
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
