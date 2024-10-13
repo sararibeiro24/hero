@@ -2,6 +2,7 @@ package com.up202305327.ldts;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -33,7 +34,25 @@ public class Game {
     }
         }
     private void processKey(KeyStroke key) {
-        System.out.println(key);
+        switch (key.getKeyType()) {
+            case ArrowUp:
+                y -= 1;
+                break;
+            case ArrowDown:
+                y += 1;
+                break;
+            case ArrowLeft:
+                x -= 1;
+                break;
+            case ArrowRight:
+                x += 1;
+                break;
+            case Character:
+                if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
+                System.exit(0);}
+
+        }
+
     }
 
 private void draw() throws IOException{
@@ -44,9 +63,13 @@ private void draw() throws IOException{
 
 public void run(){
     try {
-        draw();
-        KeyStroke key = screen.readInput();
-        processKey(key);
+        while (true){
+            draw();
+            KeyStroke key = screen.readInput();
+           if (key.getKeyType()==KeyType.EOF) {break;}
+           processKey(key);
+        }
+
     } catch (IOException e) {
         throw new RuntimeException(e);
     }
